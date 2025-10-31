@@ -1,0 +1,60 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-122.28856008947551, 47.61180249968916] },
+      "properties": { "name": "Yoka Cafe", "category": "Matcha", "rating": 4.5 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-122.20263999999908, 47.610590849523135] },
+      "properties": { "name": "Nana's Green Tea", "category": "Matcha", "rating": 5 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-122.3172414576718, 47.61697870529585] },
+      "properties": { "name": "Atulea", "category": "Matcha", "rating": 4 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-122.31352520270522, 47.65855405360921] },
+      "properties": { "name": "Cafe on the Ave", "category": "Food/Coffee", "rating": 4.5 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-122.31175900947272, 47.65664251681764] },
+      "properties": { "name": "Henry Art Gallery", "category": "Food/Coffee", "rating": 3.5 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-122.33461554232753, 47.61071714083991] },
+      "properties": { "name": "Olympia Coffee Roasters", "category": "Food/Coffee", "rating": 4 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-122.32161556024818, 47.62527567870407] },
+      "properties": { "name": "French Guys", "category": "Bakery", "rating": 4.5 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-122.31984193041313, 47.61470234651645] },
+      "properties": { "name": "Elliot Bay", "category": "Coffee/Tea", "rating": 4 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-122.20381108347954, 47.61567930174601] },
+      "properties": { "name": "Woods Coffee", "category": "Coffee/Tea", "rating": 4 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-122.10388321567603, 47.67552268888494] },
+      "properties": { "name": "Mercury's Coffee Co.", "category": "Coffee/Tea", "rating": 4 }
+    },
+    {
+      "type": "Feature",
+      "geometry": { "type": "Point", "coordinates": [-122.31467620203973, 47.66516208405827] },
+      "properties": { "name": "Sip House", "category": "Coffee/Tea", "rating": 4 }
+    }
+  ]
+}

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <meta charset="utf-8">
+    <title>Seattle Cafe Recommendations</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css" rel="stylesheet">
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.js"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #side-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 350px;
+            max-height: 90%;
+            background-color: rgba(255, 255, 255, 0.95);
+            overflow-y: auto;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+
+        @media screen and (max-width: 1024px) {
+            #side-panel {
+                display: none;
+            }
+        }
+
+        button {
+            margin-bottom: 10px;
+            width: 100%;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<div id="side-panel">
+    <h2>Best Cafes in Seattle</h2>
+    <button id="sortButton">Sort by Rating</button>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Rating</th>
+        </tr>
+    </table>
+</div>
+
+<script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYWVsa3VuY2h3YXIiLCJhIjoiY21oZWM5ZnBnMGRxNzJscHV5bmp4eXBidSJ9.lx_hyQVKP_Tj5MqbTnqwIw';
+
+    let map = new mapboxgl.Map({
+        container: 'map',
+        style: 'mapbox://styles/mapbox/light-v11', // different from earthquake map
+        center: [-122.335167, 47.608013],
+        zoom: 11
+    });
+
+    async function loadGeoJSON() {
+        let response, cafes, seattle;
+
+        // Load cafes data
+        response = await fetch('assets/bestcafes.geojson');
+        cafes = await response.json();
+
+        // Load Seattle area polygon
+        response = await fetch('assets/seattlearea.geojson');
+        seattle = await response.json();
+
+        map.on('load', function() {
+            // Seattle polygon layer
+            map.addSource('seattle-area', { type: 'geojson', data: seattle });
+            map.addLayer({
+                'id': 'seattle-area-layer',
+                'type': 'fill',
+                'source': 'seattle-area',
+                'paint': {
+                    'fill-color': '#0080ff',
+                    'fill-opacity': 0.3
+                }
+            });
+
+            // Cafes layer
+            map.addSource('cafes', { type: 'geojson', data: cafes });
+            map.addLayer({
+                'id': 'cafes-layer',
+                'type': 'circle',
+                'source': 'cafes',
+                'paint': {
+                    'circle-radius': 8,
+                    'circle-color': 'orange',
+                    'circle-stroke-width': 2,
+                    'circle-stroke-color': 'white'
+                }
+            });
+
+            // Populate table
+            let table = document.getElementsByTagName("table")[0];
+            for (let i = 0; i < cafes.features.length; i++) {
+                let row = table.insertRow(-1);
+                let cell1 = row.insertCell(0);
+                let cell2 = row.insertCell(1);
+                let cell3 = row.insertCell(2);
+                cell1.innerHTML = cafes.features[i].properties.name || 'Unknown';
+                cell2.innerHTML = cafes.features[i].properties.category || 'N/A';
+                cell3.innerHTML = cafes.features[i].properties.rating || 'N/A';
+            }
+        });
+    }
+
+    loadGeoJSON();
+
+    // Sort table function
+    document.getElementById('sortButton').addEventListener('click', function() {
+        let table = document.getElementsByTagName("table")[0];
+        let switching = true;
+        while (switching) {
+            switching = false;
+            let rows = table.rows;
+            for (let i = 1; i < rows.length - 1; i++) {
+                let shouldSwitch = false;
+                let x = parseFloat(rows[i].getElementsByTagName("td")[2].innerHTML);
+                let y = parseFloat(rows[i + 1].getElementsByTagName("td")[2].innerHTML);
+                if (x < y) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+            if (shouldSwitch) {
+                rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                switching = true;
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
